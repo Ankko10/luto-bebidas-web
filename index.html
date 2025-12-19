@@ -521,7 +521,7 @@
         const phoneNumber = "5493425406314";
         const RUTA_IMG = "img/"; 
 
-        // DATOS
+        // DATOS - NOTA: Elimine las promos "2x" individuales. Ahora se calculan automagicamente.
         const products = [
             // --- VINOS (Botellas sueltas con lógica de promo) ---
             { id: 401, name: "Santa Julia Chenin Dulce", category: "vinos", price: 6500, promoPrice: 12500, promoQty: 2, img: "santajulia_blanco.png" },
@@ -682,13 +682,15 @@
         let touchEndX = 0;
         const carousel = document.getElementById('hero-carousel');
         
-        carousel.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX, {passive: true});
-        carousel.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            if (touchEndX < touchStartX - 50) nextSlide();
-            if (touchEndX > touchStartX + 50) prevSlide();
-            resetTimer();
-        }, {passive: true});
+        if (carousel) {
+            carousel.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX, {passive: true});
+            carousel.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                if (touchEndX < touchStartX - 50) nextSlide();
+                if (touchEndX > touchStartX + 50) prevSlide();
+                resetTimer();
+            }, {passive: true});
+        }
 
         let slideIndex = 0;
         let timer;
@@ -697,12 +699,13 @@
         function showSlide(n) {
             slides.forEach(s => s.classList.remove('active'));
             slideIndex = (n + slides.length) % slides.length;
-            slides[slideIndex].classList.add('active');
+            if (slides[slideIndex]) slides[slideIndex].classList.add('active');
         }
         function nextSlide() { showSlide(slideIndex + 1); resetTimer(); }
         function prevSlide() { showSlide(slideIndex - 1); resetTimer(); }
         function resetTimer() { clearInterval(timer); timer = setInterval(nextSlide, 5000); }
-        resetTimer();
+        
+        if(slides.length > 0) resetTimer();
 
         // NAVEGACIÓN
         function showHome() {
@@ -720,16 +723,20 @@
             clearInterval(timer);
         }
         function switchView(id) {
-            ['home-view','shop-view','cart-view','product-detail-view'].forEach(v => document.getElementById(v).style.display = 'none');
-            document.getElementById(id).style.display = 'block';
+            ['home-view','shop-view','cart-view','product-detail-view'].forEach(v => {
+                const el = document.getElementById(v);
+                if (el) el.style.display = 'none';
+            });
+            const activeEl = document.getElementById(id);
+            if (activeEl) activeEl.style.display = 'block';
             window.scrollTo(0,0);
             updateFloatingButton();
         }
         function toggleSidebar() {
             const sb = document.getElementById('sidebar');
             const ov = document.getElementById('sidebar-overlay');
-            sb.classList.toggle('active');
-            ov.style.display = sb.classList.contains('active') ? 'block' : 'none';
+            if (sb) sb.classList.toggle('active');
+            if (ov && sb) ov.style.display = sb.classList.contains('active') ? 'block' : 'none';
         }
         function scrollToSection(id) {
             const el = document.getElementById(id);
@@ -748,6 +755,7 @@
         // TIENDA CON MEZCLA
         function renderShop(filter, btn) {
             const container = document.getElementById('products-container');
+            if (!container) return;
             container.innerHTML = '';
             
             if(btn) {
@@ -760,9 +768,9 @@
             }
 
             let list = [];
-            
+            // Copiamos el array para no modificar el original al filtrar
             if (filter === 'todos') {
-                list = [...products]; 
+                list = products.slice(); 
                 shuffleArray(list);   
             } else if (filter === 'promociones-navidenas') {
                 list = products.filter(p => p.category === filter);
@@ -775,19 +783,31 @@
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 
-                // Generar etiqueta promo si aplica
                 let promoBadge = '';
                 if(p.promoQty) {
-                    promoBadge = `<span class="promo-badge">2x $${p.promoPrice}</span>`;
+                    promoBadge = `<span class="promo-badge">${p.promoQty}x $${p.promoPrice}</span>`;
                 }
 
                 card.innerHTML = `
-                    <img src="${RUTA_IMG}${p.img}" class="product-img" onclick="openProductDetail(${p.id})" onerror="this.src='https://via.placeholder.com/200?text=IMG'">
+                    <img src="${RUTA_IMG}${p.img}" class="product-img" onerror="this.src='https://via.placeholder.com/200?text=IMG'">
                     <div class="product-info">
-                        <div class="product-name" onclick="openProductDetail(${p.id})">${p.name}</div>
+                        <div class="product-name">${p.name}</div>
                         <span class="price">$${p.price} ${promoBadge}</span>
-                        <button class="add-cart-btn" onclick="addToCart(${p.id})">AGREGAR</button>
+                        <button class="add-cart-btn">AGREGAR</button>
                     </div>`;
+                
+                // Eventos manuales para evitar errores de onclick en string
+                const imgEl = card.querySelector('.product-img');
+                const titleEl = card.querySelector('.product-name');
+                const btnEl = card.querySelector('.add-cart-btn');
+                
+                imgEl.onclick = () => openProductDetail(p.id);
+                titleEl.onclick = () => openProductDetail(p.id);
+                btnEl.onclick = (e) => {
+                    e.stopPropagation(); // Evita abrir el modal al dar click en agregar
+                    addToCart(p.id);
+                };
+
                 container.appendChild(card);
             });
         }
@@ -807,7 +827,6 @@
             }
             document.getElementById('popup-desc').innerHTML = desc;
             
-            // Configurar botón agregar
             const btn = document.getElementById('popup-add-btn');
             btn.onclick = () => {
                 addToCart(p.id);
@@ -831,15 +850,15 @@
         }
         function updateCartUI() {
             const count = cart.reduce((a, b) => a + b.qty, 0);
-            document.getElementById('cart-count').innerText = count;
+            const badge = document.getElementById('cart-count');
+            if(badge) badge.innerText = count;
             updateFloatingButton();
         }
         
         function calculateItemTotal(item) {
-            // Lógica inteligente: Si tiene promoQty (ej: 2) y llevas 2 o mas...
             if (item.promoQty && item.promoPrice && item.qty >= item.promoQty) {
-                const bundles = Math.floor(item.qty / item.promoQty); // Cuantos packs
-                const remainder = item.qty % item.promoQty; // Cuantos sueltos
+                const bundles = Math.floor(item.qty / item.promoQty);
+                const remainder = item.qty % item.promoQty;
                 return (bundles * item.promoPrice) + (remainder * item.price);
             }
             return item.price * item.qty;
@@ -847,6 +866,7 @@
 
         function renderCart() {
             const con = document.getElementById('cart-list-container');
+            if (!con) return;
             con.innerHTML = '';
             let total = 0;
             if(cart.length === 0) {
@@ -888,8 +908,10 @@
         }
         function updateFloatingButton() {
             const txt = document.getElementById('float-btn-text');
-            if(cart.length === 0) txt.innerText = "HACÉ TU PEDIDO";
-            else txt.innerText = "FINALIZAR COMPRA (" + cart.reduce((a,b)=>a+b.qty,0) + ")";
+            if (txt) {
+                if(cart.length === 0) txt.innerText = "HACÉ TU PEDIDO";
+                else txt.innerText = "FINALIZAR COMPRA (" + cart.reduce((a,b)=>a+b.qty,0) + ")";
+            }
         }
         function openDeliveryModal() { document.getElementById('delivery-modal').style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
@@ -902,25 +924,31 @@
         }
 
         function toggleAddressField(show) {
-            document.getElementById('address-field-container').style.display = show ? 'block' : 'none';
+            const el = document.getElementById('address-field-container');
+            if(el) el.style.display = show ? 'block' : 'none';
         }
 
         function togglePaymentFields(method) {
-            document.getElementById('cash-input-wrapper').style.display = method === 'efectivo' ? 'block' : 'none';
-            document.getElementById('transfer-info-wrapper').style.display = method === 'transferencia' ? 'block' : 'none';
+            const cash = document.getElementById('cash-input-wrapper');
+            const trans = document.getElementById('transfer-info-wrapper');
+            if(cash) cash.style.display = method === 'efectivo' ? 'block' : 'none';
+            if(trans) trans.style.display = method === 'transferencia' ? 'block' : 'none';
         }
 
         function copyAlias() {
             navigator.clipboard.writeText("luto.bebidas");
             const btn = document.querySelector('.copy-btn');
-            const originalText = btn.innerText;
-            btn.innerText = "¡COPIADO!";
-            setTimeout(() => btn.innerText = originalText, 2000);
+            if(btn) {
+                const originalText = btn.innerText;
+                btn.innerText = "¡COPIADO!";
+                setTimeout(() => btn.innerText = originalText, 2000);
+            }
         }
         
         // CHECKOUT
         function finalizeOrder() {
-            const name = document.getElementById('customer-name').value;
+            const nameEl = document.getElementById('customer-name');
+            const name = nameEl ? nameEl.value : '';
             if(!name) return alert("Por favor ingresa tu nombre");
 
             const opts = document.getElementsByName('payment');
@@ -940,13 +968,15 @@
             msg += `Entrega: ${deliveryType === 'delivery' ? '🛵 Domicilio' : '🏪 Retiro'}`;
             
             if(deliveryType === 'delivery') {
-                const address = document.getElementById('customer-address').value;
+                const addrEl = document.getElementById('customer-address');
+                const address = addrEl ? addrEl.value : '';
                 if(!address) return alert("Ingresa tu dirección para el envío");
                 msg += `%0ADirección: ${address}`;
             }
 
             if(pay === 'efectivo') {
-                const amount = document.getElementById('cash-amount').value;
+                const cashEl = document.getElementById('cash-amount');
+                const amount = cashEl ? cashEl.value : '';
                 msg += `%0A💵 Pago: Efectivo ${amount ? '(Abona con $'+amount+')' : ''}`;
             } else {
                 msg += `%0A📱 Pago: Transferencia (Alias: luto.bebidas)`;
@@ -958,7 +988,9 @@
         }
 
         // INIT
-        showHome();
+        window.onload = function() {
+            showHome();
+        };
     </script>
 </body>
 </html>
