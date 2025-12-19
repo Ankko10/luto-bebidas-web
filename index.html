@@ -213,7 +213,7 @@
         #cart-view { display: none; padding: 20px; min-height: 80vh; }
         .cart-item { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); padding: 15px 0; }
         .cart-item-img { width:45px; height:45px; object-fit:contain; background:#fff; border-radius:4px; padding:2px; }
-        .cart-remove-btn { background:none; border:none; color:#ff5555; font-size: 1.2rem; padding: 0 15px; cursor: pointer; }
+        .cart-remove-btn { background:none; border:1px solid #444; color:#ff5555; font-size: 1rem; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-left: 10px; }
 
         /* FOOTER */
         footer { background: #050505; color: var(--secondary-gray); padding: 50px 20px; text-align: center; border-top: 1px solid var(--border-subtle); }
@@ -595,6 +595,26 @@
             { id: 156, name: "Speed XL", category: "jugos-energizantes", price: 2200, img: "speed_xl.png" },
             { id: 157, name: "Speed 250ml", category: "jugos-energizantes", price: 1700, img: "speed_250.png" },
             { id: 158, name: "Red Bull 250ml", category: "jugos-energizantes", price: 2500, img: "redbull.png" },
+            { id: 160, name: "Tónica Cunnington 1.5L", category: "jugos-energizantes", price: 1900, img: "cunnington.png" },
+            { id: 161, name: "Paso de los Toros Tónica 1.5L", category: "jugos-energizantes", price: 2400, img: "pasotonica15.png" },
+            { id: 162, name: "Pritty Limón 2L", category: "jugos-energizantes", price: 2000, img: "pritty.png" },
+            { id: 163, name: "7up 2.25L", category: "jugos-energizantes", price: 2600, img: "7up225.png" },
+            { id: 164, name: "Pepsi 3L", category: "jugos-energizantes", price: 3000, img: "pepsi3l.png" },
+            
+            // SIN ALCOHOL (GASEOSAS EXISTENTES)
+            { id: 101, name: "Coca-Cola 1.5L", category: "sin-alcohol", price: 3000, img: "coca15.png" },
+            { id: 102, name: "Coca-Cola 1.75L", category: "sin-alcohol", price: 3300, img: "coca175.png" },
+            { id: 103, name: "Coca-Cola 2.5L", category: "sin-alcohol", price: 3500, img: "coca25.png" },
+            { id: 104, name: "Coca-Cola 2.75L", category: "sin-alcohol", price: 3700, img: "coca275.png" },
+            { id: 105, name: "Coca Retornable 2L", category: "sin-alcohol", price: 3000, img: "cocaret2l.png" },
+            { id: 106, name: "Sprite 1.5L", category: "sin-alcohol", price: 3000, img: "sprite15.png" },
+            { id: 107, name: "Sprite 1.75L", category: "sin-alcohol", price: 3300, img: "sprite175.png" },
+            { id: 108, name: "Sprite Zero 1.75L", category: "sin-alcohol", price: 3000, img: "spritezero175.png" },
+            { id: 109, name: "7up 1.5L", category: "sin-alcohol", price: 2000, img: "7up15.png" },
+            { id: 110, name: "Pepsi 1.5L", category: "sin-alcohol", price: 2000, img: "pepsi15.png" },
+            { id: 111, name: "Manaos Pomelo 3L", category: "sin-alcohol", price: 0, img: "manaos3l.png" },
+            { id: 112, name: "Paso de los Toros Pomelo", category: "sin-alcohol", price: 2400, img: "pasopomelo.png" },
+            { id: 113, name: "Paso de los Toros Tónica", category: "sin-alcohol", price: 2400, img: "pasotonica.png" },
 
             // --- COMBOS HEREDERO ---
             { id: 920, name: "Gin Heredero Pink + 2 Tónicas 1.5L", category: "promociones-navidenas", price: 17500, img: "heredero_pink_simple.png" },
@@ -630,26 +650,6 @@
             { id: 306, name: "Skyy Vodka Saborizado", category: "vodka", price: 8500, img: "skyysabor.png" },
             { id: 307, name: "Skyy Cosmic", category: "vodka", price: 9500, img: "skyycosmic.png" },
             { id: 308, name: "Sernova Vodka Saborizado", category: "vodka", price: 7700, img: "sernovasabor.png" },
-            
-            // SIN ALCOHOL (GASEOSAS)
-            { id: 101, name: "Coca-Cola 1.5L", category: "sin-alcohol", price: 3000, img: "coca15.png" },
-            { id: 102, name: "Coca-Cola 1.75L", category: "sin-alcohol", price: 3300, img: "coca175.png" },
-            { id: 103, name: "Coca-Cola 2.5L", category: "sin-alcohol", price: 3500, img: "coca25.png" },
-            { id: 104, name: "Coca-Cola 2.75L", category: "sin-alcohol", price: 3700, img: "coca275.png" },
-            { id: 105, name: "Coca Retornable 2L", category: "sin-alcohol", price: 3000, img: "cocaret2l.png" },
-            { id: 106, name: "Sprite 1.5L", category: "sin-alcohol", price: 3000, img: "sprite15.png" },
-            { id: 107, name: "Sprite 1.75L", category: "sin-alcohol", price: 3300, img: "sprite175.png" },
-            { id: 108, name: "Sprite Zero 1.75L", category: "sin-alcohol", price: 3000, img: "spritezero175.png" },
-            { id: 109, name: "7up 1.5L", category: "sin-alcohol", price: 2000, img: "7up15.png" },
-            { id: 110, name: "Pepsi 1.5L", category: "sin-alcohol", price: 2000, img: "pepsi15.png" },
-            { id: 111, name: "Manaos Pomelo 3L", category: "sin-alcohol", price: 0, img: "manaos3l.png" },
-            { id: 112, name: "Paso de los Toros Pomelo", category: "sin-alcohol", price: 2400, img: "pasopomelo.png" },
-            { id: 113, name: "Paso de los Toros Tónica", category: "sin-alcohol", price: 2400, img: "pasotonica.png" },
-            { id: 160, name: "Tónica Cunnington 1.5L", category: "sin-alcohol", price: 1900, img: "cunnington.png" },
-            { id: 161, name: "Paso de los Toros Tónica 1.5L", category: "sin-alcohol", price: 2400, img: "pasotonica15.png" },
-            { id: 162, name: "Pritty Limón 2L", category: "sin-alcohol", price: 2000, img: "pritty.png" },
-            { id: 163, name: "7up 2.25L", category: "sin-alcohol", price: 2600, img: "7up225.png" },
-            { id: 164, name: "Pepsi 3L", category: "sin-alcohol", price: 3000, img: "pepsi3l.png" },
             
             // CERVEZAS
             { id: 201, name: "Budweiser Lata 473ml", category: "cervezas", price: 1800, img: "budlata.png" },
@@ -783,6 +783,12 @@
             } else if (filter === 'promociones-navidenas') {
                 list = products.filter(p => p.category === filter);
                 shuffleArray(list);   
+            } else if (filter === 'sin-alcohol' || filter === 'jugos-energizantes') {
+                // Combinar categorías parecidas si se desea, o filtrar estricto
+                // Aquí filtro estricto pero incluyo los nuevos ingresos correctamente
+                list = products.filter(p => p.category === filter || (filter === 'sin-alcohol' && p.category === 'jugos-energizantes'));
+                // Nota: Arriba en el menú tienes botones separados, así que mejor respetar la categoría exacta
+                list = products.filter(p => p.category === filter);
             } else {
                 list = products.filter(p => p.category === filter);
             }
@@ -851,11 +857,18 @@
             if(exist) exist.qty++; else cart.push({...p, qty:1});
             updateCartUI();
         }
+        
+        // MODIFICADO: Eliminar de a uno
         function removeFromCart(index) {
-            cart.splice(index, 1);
+            if (cart[index].qty > 1) {
+                cart[index].qty--;
+            } else {
+                cart.splice(index, 1);
+            }
             updateCartUI();
             renderCart();
         }
+
         function updateCartUI() {
             const count = cart.reduce((a, b) => a + b.qty, 0);
             const badge = document.getElementById('cart-count');
