@@ -521,9 +521,9 @@
         const phoneNumber = "5493425406314";
         const RUTA_IMG = "img/"; 
 
-        // DATOS - NOTA: Elimine las promos "2x" individuales. Ahora se calculan automagicamente.
+        // DATOS
         const products = [
-            // --- VINOS (Botellas sueltas con lógica de promo) ---
+            // --- VINOS ---
             { id: 401, name: "Santa Julia Chenin Dulce", category: "vinos", price: 6500, promoPrice: 12500, promoQty: 2, img: "santajulia_blanco.png" },
             { id: 402, name: "Canciller Dulce 1125ml", category: "vinos", price: 3000, promoPrice: 5000, promoQty: 2, img: "canciller.png" },
             { id: 403, name: "Dilema Blanco", category: "vinos", price: 3800, promoPrice: 7000, promoQty: 2, img: "dilema.png" },
@@ -540,6 +540,8 @@
             { id: 414, name: "Estancia Mendoza", category: "vinos", price: 3000, promoPrice: 5000, promoQty: 2, img: "estancia.png" },
             { id: 415, name: "Vino Toro 750ml", category: "vinos", price: 2000, img: "toro750.png" },
             { id: 4, name: "Vino Malbec Rutini", category: "vinos", price: 12500, img: "rutini.png" },
+            { id: 420, name: "Frizze Evolution 1L", category: "vinos", price: 2800, img: "frizze.png" },
+            { id: 421, name: "Vino Toro Tetra Brik", category: "vinos", price: 2000, img: "torotetra.png" },
 
             // --- COMBOS FERNET ---
             { id: 930, name: "Fernet 750ml + 2 Coca 2.5L", category: "fernet", price: 21500, img: "fernet750_2coca25.png" },
@@ -566,6 +568,7 @@
             { id: 452, name: "Gancia", category: "aperitivos", price: 7000, img: "gancia.png" },
             { id: 453, name: "Cinzano", category: "aperitivos", price: 7800, img: "cinzano.png" },
             { id: 454, name: "Campari", category: "aperitivos", price: 8000, img: "campari.png" },
+            { id: 460, name: "Dr. Lemon 1L", category: "aperitivos", price: 3400, img: "drlemon.png" },
 
             // --- LICORES ---
             { id: 601, name: "Jägermeister", category: "licores", price: 27500, img: "jaggermeister.png" },
@@ -579,10 +582,10 @@
             { id: 703, name: "Johnnie Walker Black Label", category: "whisky", price: 44000, img: "blacklabel.png" },
 
             // --- CHAMPAGNE ---
-            { id: 801, name: "Chandon Délice", category: "champagne", price: 16500, img: "chandon_delice.png" },
+            { id: 801, name: "Chandon Délice", category: "champagne", price: 17500, img: "chandon_delice.png" },
             { id: 802, name: "Caja Chandon Délice", category: "champagne", price: 96000, img: "chandon_delice_caja.png" },
 
-            // --- JUGOS Y ENERGIZANTES ---
+            // --- JUGOS Y ENERGIZANTES / SIN ALCOHOL ---
             { id: 150, name: "Baggio 1L", category: "jugos-energizantes", price: 1700, img: "baggio_1l.png" },
             { id: 151, name: "Cepita 1L", category: "jugos-energizantes", price: 2000, img: "cepita_1l.png" },
             { id: 152, name: "Cepita 1.5L", category: "jugos-energizantes", price: 2600, img: "cepita_15.png" },
@@ -642,6 +645,11 @@
             { id: 111, name: "Manaos Pomelo 3L", category: "sin-alcohol", price: 0, img: "manaos3l.png" },
             { id: 112, name: "Paso de los Toros Pomelo", category: "sin-alcohol", price: 2400, img: "pasopomelo.png" },
             { id: 113, name: "Paso de los Toros Tónica", category: "sin-alcohol", price: 2400, img: "pasotonica.png" },
+            { id: 160, name: "Tónica Cunnington 1.5L", category: "sin-alcohol", price: 1900, img: "cunnington.png" },
+            { id: 161, name: "Paso de los Toros Tónica 1.5L", category: "sin-alcohol", price: 2400, img: "pasotonica15.png" },
+            { id: 162, name: "Pritty Limón 2L", category: "sin-alcohol", price: 2000, img: "pritty.png" },
+            { id: 163, name: "7up 2.25L", category: "sin-alcohol", price: 2600, img: "7up225.png" },
+            { id: 164, name: "Pepsi 3L", category: "sin-alcohol", price: 3000, img: "pepsi3l.png" },
             
             // CERVEZAS
             { id: 201, name: "Budweiser Lata 473ml", category: "cervezas", price: 1800, img: "budlata.png" },
