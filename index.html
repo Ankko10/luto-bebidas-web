@@ -37,6 +37,11 @@
         h1, h2, h3, .serif-font { font-family: 'Playfair Display', serif; }
         button { font-family: 'Montserrat', sans-serif; }
 
+        /* --- NOVEDAD: ANIMACIÓN DE LUCES CAYENDO --- */
+        @keyframes falling-lights {
+          to { background-position: 0px 800px, 0px 600px, 0px 400px; }
+        }
+
         /* HEADER */
         header {
             background-color: rgba(18, 18, 18, 0.98); 
@@ -47,7 +52,24 @@
             display: flex; justify-content: space-between; align-items: center;
         }
         
-        .brand-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        /* --- NOVEDAD: GORRITO NAVIDEÑO EN EL LOGO (Truco CSS) --- */
+        .brand-container { 
+            display: flex; align-items: center; gap: 10px; cursor: pointer;
+            position: relative; /* Necesario para el truco */
+        }
+        /* Esto añade el emoji del gorrito encima */
+        .brand-container::after {
+            content: '🎅'; /* Emoji de Santa */
+            position: absolute;
+            top: -7px;
+            left: -6px;
+            font-size: 1.2rem;
+            transform: rotate(-15deg);
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
+            z-index: 1005;
+            pointer-events: none;
+        }
+
         .logo-img { height: 35px; width: 35px; object-fit: cover; border-radius: 50%; border: 1px solid var(--primary-white); }
         
         .brand-text { display: flex; align-items: baseline; gap: 3px; }
@@ -167,8 +189,23 @@
         .map-section { height: 250px; width: 100%; filter: grayscale(100%); opacity: 0.8; }
         iframe { width: 100%; height: 100%; border: 0; }
 
-        /* VISTA TIENDA */
-        #shop-view { display: none; padding-top: 15px; min-height: 80vh; }
+        /* VISTA TIENDA - MODIFICADA CON FONDO NAVIDEÑO SUTIL */
+        #shop-view { 
+            display: none; 
+            padding-top: 15px; 
+            min-height: 80vh;
+            /* Color base negro */
+            background-color: var(--dark-bg-main);
+            /* Capas de "luces" con muy baja opacidad (0.12, 0.08, 0.05) para que sea sutil */
+            background-image:
+                radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.12) 50%, transparent 50%),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.08) 50%, transparent 50%),
+                radial-gradient(3px 3px at 90px 40px, rgba(255,255,255,0.05) 50%, transparent 50%),
+                radial-gradient(2px 2px at 150px 200px, rgba(255,255,255,0.1) 50%, transparent 50%);
+            background-size: 300px 800px, 400px 600px, 250px 400px, 350px 500px;
+            animation: falling-lights 40s linear infinite;
+        }
+
         .categories-nav { 
             display: flex; gap: 8px; overflow-x: auto; padding: 10px 15px; 
             background: var(--dark-bg-secondary); margin-bottom: 15px; 
@@ -194,6 +231,8 @@
             padding-bottom: 12px; 
             cursor: pointer; 
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            /* Aseguramos que la tarjeta sea opaca sobre el fondo de luces */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         .product-card:hover {
             transform: scale(1.02);
