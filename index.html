@@ -37,7 +37,7 @@
         h1, h2, h3, .serif-font { font-family: 'Playfair Display', serif; }
         button { font-family: 'Montserrat', sans-serif; }
 
-        /* --- ANIMACIÓN DE LUCES CAYENDO (FONDO CATÁLOGO) --- */
+        /* --- ANIMACIÓN DE LUCES CAYENDO --- */
         @keyframes falling-lights {
           to { background-position: 0px 800px, 0px 600px, 0px 400px; }
         }
@@ -54,27 +54,28 @@
         
         .brand-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
 
-        /* --- NUEVO: ESTILOS PARA EL GORRITO REAL SOBRE EL LOGO --- */
+        /* --- ESTILOS GORRITO --- */
         .logo-wrapper {
-            position: relative; /* Necesario para que el gorro se posicione respecto a esto */
+            position: relative; 
             width: 35px; height: 35px;
         }
         .logo-img { 
             width: 100%; height: 100%; 
             object-fit: cover; border-radius: 50%; 
             border: 1px solid var(--primary-white);
-            position: relative; z-index: 1; /* El logo queda abajo */
+            position: relative; z-index: 1; 
         }
         .santa-hat-img {
-            position: absolute; /* Posición absoluta respecto al wrapper */
-            top: -14px;  /* Ajusta esto para subir/bajar el gorro */
-            left: -11px; /* Ajusta esto para moverlo izquierda/derecha */
-            width: 38px; /* Tamaño del gorro */
+            position: absolute;
+            /* AJUSTES DE POSICIÓN DEL GORRO */
+            top: -22px;  
+            left: -14px; 
+            width: 50px; /* Tamaño */
             height: auto;
-            z-index: 5; /* Encima del logo */
-            transform: rotate(-12deg); /* Inclinación */
-            pointer-events: none; /* Para que no interfiera con el click en el logo */
-            filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.6)); /* Sombra para realismo */
+            z-index: 5; 
+            transform: rotate(-10deg); 
+            pointer-events: none; 
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.8)); 
         }
         
         .brand-text { display: flex; align-items: baseline; gap: 3px; }
@@ -194,29 +195,27 @@
         .map-section { height: 250px; width: 100%; filter: grayscale(100%); opacity: 0.8; }
         iframe { width: 100%; height: 100%; border: 0; }
 
-        /* VISTA TIENDA - MODIFICADA CON FONDO NAVIDEÑO SUTIL */
+        /* VISTA TIENDA - LUCES MÁS BRILLANTES */
         #shop-view { 
             display: none; 
             padding-top: 15px; 
             min-height: 80vh;
-            /* Color base negro */
             background-color: var(--dark-bg-main);
-            /* Capas de "luces" con muy baja opacidad para que sea sutil */
+            /* LUCES MUY VISIBLES (Opacidad alta 0.8 y 0.5) */
             background-image:
-                radial-gradient(rgba(255,255,255,0.15) 1px, transparent 3px),
-                radial-gradient(rgba(255,255,255,0.1) 1px, transparent 2px),
-                radial-gradient(rgba(255,255,255,0.08) 2px, transparent 4px);
-            background-size: 350px 350px, 250px 250px, 450px 450px;
+                radial-gradient(white, rgba(255,255,255,.8) 2px, transparent 6px),
+                radial-gradient(white, rgba(255,255,255,.5) 1px, transparent 3px),
+                radial-gradient(white, rgba(255,255,255,.3) 2px, transparent 4px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
             background-position: 0 0, 0 0, 0 0;
-            /* Animación lenta de caída */
-            animation: falling-lights 25s linear infinite;
+            animation: falling-lights 20s linear infinite; /* Un poco más rápido */
         }
 
         .categories-nav { 
             display: flex; gap: 8px; overflow-x: auto; padding: 10px 15px; 
             background: var(--dark-bg-secondary); margin-bottom: 15px; 
             border-bottom: 1px solid var(--border-subtle); scrollbar-width: none; 
-            position: relative; z-index: 2; /* Para que las luces pasen por detrás */
+            position: relative; z-index: 2; 
         }
         .categories-nav::-webkit-scrollbar { display: none; }
         .cat-btn { 
@@ -238,7 +237,6 @@
             padding-bottom: 12px; 
             cursor: pointer; 
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-            /* Aseguramos que la tarjeta sea opaca y tape las luces */
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         .product-card:hover {
@@ -350,7 +348,6 @@
         </ul>
     </div>
 
-    
     <header>
         <div class="brand-container" onclick="toggleSidebar()">
             <div class="logo-wrapper">
