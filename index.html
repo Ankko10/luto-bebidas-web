@@ -43,16 +43,10 @@
           to { background-position: 0px 800px, 0px 600px, 0px 400px; }
         }
 
-        /* NUEVA ANIMACIÓN: Aparición de productos */
+        /* Aparición de productos */
         @keyframes fadeSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px); /* Empieza un poco más abajo */
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0); /* Termina en su lugar */
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* HEADER */
@@ -67,7 +61,7 @@
         
         .brand-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
 
-        /* --- ESTILOS GORRITO (AJUSTADO A LA DERECHA) --- */
+        /* --- ESTILOS GORRITO (CORREGIDO POSICIÓN) --- */
         .logo-wrapper {
             position: relative; 
             width: 35px; height: 35px;
@@ -80,13 +74,12 @@
         }
         .santa-hat-img {
             position: absolute;
-            /* AJUSTES DE POSICIÓN Y ROTACIÓN PARA INCLINAR A LA DERECHA */
-            top: -24px;  
-            left: -8px; 
-            width: 52px;
+            /* AJUSTES FINOS PARA QUE "VISTA" EL ICONO */
+            top: -20px;   /* Un poco más abajo para encajar en la cabeza */
+            left: 3px;    /* Bastante más a la derecha para centrar la base */
+            width: 55px;  /* Un pelín más grande */
             height: auto;
             z-index: 5; 
-            transform: rotate(15deg); /* Rotación positiva para la derecha */
             pointer-events: none; 
             filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.8)); 
         }
