@@ -37,9 +37,22 @@
         h1, h2, h3, .serif-font { font-family: 'Playfair Display', serif; }
         button { font-family: 'Montserrat', sans-serif; }
 
-        /* --- ANIMACIÓN DE LUCES CAYENDO --- */
+        /* --- ANIMACIONES --- */
+        /* Luces del fondo */
         @keyframes falling-lights {
           to { background-position: 0px 800px, 0px 600px, 0px 400px; }
+        }
+
+        /* NUEVA ANIMACIÓN: Aparición de productos */
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px); /* Empieza un poco más abajo */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0); /* Termina en su lugar */
+            }
         }
 
         /* HEADER */
@@ -54,7 +67,7 @@
         
         .brand-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
 
-        /* --- ESTILOS GORRITO --- */
+        /* --- ESTILOS GORRITO (AJUSTADO A LA DERECHA) --- */
         .logo-wrapper {
             position: relative; 
             width: 35px; height: 35px;
@@ -67,13 +80,13 @@
         }
         .santa-hat-img {
             position: absolute;
-            /* AJUSTES DE POSICIÓN DEL GORRO */
-            top: -22px;  
-            left: -14px; 
-            width: 50px; /* Tamaño */
+            /* AJUSTES DE POSICIÓN Y ROTACIÓN PARA INCLINAR A LA DERECHA */
+            top: -24px;  
+            left: -8px; 
+            width: 52px;
             height: auto;
             z-index: 5; 
-            transform: rotate(-10deg); 
+            transform: rotate(15deg); /* Rotación positiva para la derecha */
             pointer-events: none; 
             filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.8)); 
         }
@@ -195,20 +208,20 @@
         .map-section { height: 250px; width: 100%; filter: grayscale(100%); opacity: 0.8; }
         iframe { width: 100%; height: 100%; border: 0; }
 
-        /* VISTA TIENDA - LUCES MÁS BRILLANTES */
+        /* VISTA TIENDA - FONDO BRILLANTE */
         #shop-view { 
             display: none; 
             padding-top: 15px; 
             min-height: 80vh;
             background-color: var(--dark-bg-main);
-            /* LUCES MUY VISIBLES (Opacidad alta 0.8 y 0.5) */
+            /* LUCES BRILLANTES */
             background-image:
                 radial-gradient(white, rgba(255,255,255,.8) 2px, transparent 6px),
                 radial-gradient(white, rgba(255,255,255,.5) 1px, transparent 3px),
                 radial-gradient(white, rgba(255,255,255,.3) 2px, transparent 4px);
             background-size: 550px 550px, 350px 350px, 250px 250px;
             background-position: 0 0, 0 0, 0 0;
-            animation: falling-lights 20s linear infinite; /* Un poco más rápido */
+            animation: falling-lights 20s linear infinite;
         }
 
         .categories-nav { 
@@ -227,7 +240,7 @@
         
         .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 12px 100px 12px; position: relative; z-index: 2; }
         
-        /* TARJETAS CON ZOOM Y NEON */
+        /* TARJETAS CON ANIMACIÓN DE ENTRADA */
         .product-card { 
             background: var(--dark-bg-secondary); 
             border: 1px solid var(--border-subtle); 
@@ -238,6 +251,8 @@
             cursor: pointer; 
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            opacity: 0; /* Empieza invisible para la animación */
+            animation: fadeSlideUp 0.5s ease forwards; /* APLICAR LA ANIMACIÓN */
         }
         .product-card:hover {
             transform: scale(1.02);
@@ -803,7 +818,7 @@
             return array;
         }
 
-        // TIENDA CON MEZCLA
+        // TIENDA CON MEZCLA Y ANIMACIÓN ESCALONADA
         function renderShop(filter, btn) {
             const container = document.getElementById('products-container');
             if (!container) return;
@@ -819,7 +834,6 @@
             }
 
             let list = [];
-            // Copiamos el array para no modificar el original al filtrar
             if (filter === 'todos') {
                 list = products.slice(); 
                 shuffleArray(list);   
@@ -827,18 +841,18 @@
                 list = products.filter(p => p.category === filter);
                 shuffleArray(list);   
             } else if (filter === 'sin-alcohol' || filter === 'jugos-energizantes') {
-                // Combinar categorías parecidas si se desea, o filtrar estricto
-                // Aquí filtro estricto pero incluyo los nuevos ingresos correctamente
                 list = products.filter(p => p.category === filter || (filter === 'sin-alcohol' && p.category === 'jugos-energizantes'));
-                // Nota: Arriba en el menú tienes botones separados, así que mejor respetar la categoría exacta
                 list = products.filter(p => p.category === filter);
             } else {
                 list = products.filter(p => p.category === filter);
             }
             
-            list.forEach(p => {
+            // MODIFICADO: Se añade 'index' para el retraso de la animación
+            list.forEach((p, index) => {
                 const card = document.createElement('div');
                 card.className = 'product-card';
+                // APLICA EL RETRASO ESCALONADO
+                card.style.animationDelay = `${index * 0.05}s`;
                 
                 let promoBadge = '';
                 if(p.promoQty) {
@@ -853,7 +867,6 @@
                         <button class="add-cart-btn">AGREGAR</button>
                     </div>`;
                 
-                // Eventos manuales para evitar errores de onclick en string
                 const imgEl = card.querySelector('.product-img');
                 const titleEl = card.querySelector('.product-name');
                 const btnEl = card.querySelector('.add-cart-btn');
@@ -861,7 +874,7 @@
                 imgEl.onclick = () => openProductDetail(p.id);
                 titleEl.onclick = () => openProductDetail(p.id);
                 btnEl.onclick = (e) => {
-                    e.stopPropagation(); // Evita abrir el modal al dar click en agregar
+                    e.stopPropagation(); 
                     addToCart(p.id);
                 };
 
@@ -893,7 +906,7 @@
             document.getElementById('product-popup').style.display = 'flex';
         }
 
-        // CARRITO (LÓGICA PRECIOS MAYORISTAS/PROMO)
+        // CARRITO
         function addToCart(id) {
             const p = products.find(i => i.id === id);
             const exist = cart.find(i => i.id === id);
@@ -901,7 +914,6 @@
             updateCartUI();
         }
         
-        // MODIFICADO: Eliminar de a uno
         function removeFromCart(index) {
             if (cart[index].qty > 1) {
                 cart[index].qty--;
