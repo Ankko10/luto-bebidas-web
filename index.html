@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 
     <style>
         /* --- ESTILOS GENERALES --- */
@@ -38,12 +39,10 @@
         button { font-family: 'Montserrat', sans-serif; }
 
         /* --- ANIMACIONES --- */
-        /* Luces del fondo */
         @keyframes falling-lights {
           to { background-position: 0px 800px, 0px 600px, 0px 400px; }
         }
 
-        /* Aparición de productos */
         @keyframes fadeSlideUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -61,7 +60,7 @@
         
         .brand-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
 
-        /* --- ESTILOS GORRITO (INCLINACIÓN RECUPERADA) --- */
+        /* ESTILOS GORRITO */
         .logo-wrapper {
             position: relative; 
             width: 35px; height: 35px;
@@ -74,13 +73,12 @@
         }
         .santa-hat-img {
             position: absolute;
-            /* AJUSTE FINAL: Inclinado y centrado */
             top: -22px;   
             left: 2px;    
             width: 55px;  
             height: auto;
             z-index: 5; 
-            transform: rotate(15deg); /* ¡Aquí está la inclinación que te gustaba! */
+            transform: rotate(15deg); 
             pointer-events: none; 
             filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.8)); 
         }
@@ -142,7 +140,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
-        /* CONTROLES CARRUSEL (FLECHAS) */
+        /* CONTROLES CARRUSEL */
         .carousel-control {
             position: absolute; top: 50%; transform: translateY(-50%);
             background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);
@@ -202,7 +200,7 @@
         .map-section { height: 250px; width: 100%; filter: grayscale(100%); opacity: 0.8; }
         iframe { width: 100%; height: 100%; border: 0; }
 
-        /* VISTA TIENDA - FONDO BRILLANTE */
+        /* VISTA TIENDA */
         #shop-view { 
             display: none; 
             padding-top: 20px; 
@@ -268,7 +266,7 @@
         
         .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 12px 100px 12px; position: relative; z-index: 2; }
         
-        /* TARJETAS CON ANIMACIÓN DE ENTRADA */
+        /* TARJETAS */
         .product-card { 
             background: var(--dark-bg-secondary); 
             border: 1px solid var(--border-subtle); 
@@ -320,7 +318,7 @@
             font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;
         }
 
-        /* SIDEBAR (IZQUIERDA) */
+        /* SIDEBAR */
         .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; backdrop-filter: blur(2px); }
         .sidebar { 
             position: fixed; top: 0; left: -85%; width: 85%; height: 100%; 
@@ -332,7 +330,7 @@
         .sidebar-links li { margin-bottom: 25px; }
         .sidebar-links a { color: #ccc; text-decoration: none; font-size: 1.1rem; font-weight: 500; display: block; letter-spacing: 1px; }
 
-        /* MODALES Y POPUP */
+        /* MODALES */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .modal-box { background: #1a1a1a; padding: 35px 25px; border-radius: 8px; width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--border-subtle); box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-height: 90vh; overflow-y: auto; }
         .modal-option-label { display:flex; align-items:center; gap:12px; margin-bottom:12px; padding:16px; background:rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius:4px; text-align:left; color: #fff; font-size: 0.95rem; cursor:pointer; }
@@ -340,32 +338,25 @@
         .btn-confirm { background: var(--primary-white); color: var(--dark-bg-main); }
         .btn-cancel { background: transparent; color: #888; border: 1px solid #444; }
         
-        /* ESTILOS ESPECIFICOS POPUP PRODUCTO */
         .popup-img { width: 150px; height: 150px; object-fit: contain; background: white; border-radius: 8px; padding: 10px; margin-bottom: 15px; }
         .popup-title { font-size: 1.4rem; color: white; margin-bottom: 5px; line-height: 1.2; }
         .popup-price { font-size: 1.6rem; color: white; font-weight: 700; display: block; margin-bottom: 15px; }
         .popup-desc { color: #aaa; margin-bottom: 20px; font-size: 0.9rem; }
 
-        /* FORMULARIOS */
         .form-input { width: 100%; padding: 14px; background: #222; border: 1px solid #444; color: white; border-radius: 4px; margin-bottom: 10px; font-family: 'Montserrat', sans-serif; }
         .alias-container { display: flex; justify-content: space-between; align-items: center; background: #2a2a2a; padding: 10px; border-radius: 4px; margin-top: 10px; border: 1px solid #444; }
         .alias-text { font-weight: 700; color: white; letter-spacing: 1px; }
         .copy-btn { background: #444; border: none; color: white; padding: 5px 10px; border-radius: 2px; font-size: 0.7rem; cursor: pointer; }
 
-        /* MEDIA QUERY: DESKTOP */
+        /* MEDIA QUERY */
         @media (min-width: 769px) {
             .menu-toggle { display: none; }
-            
-            .hero-section { 
-                height: 500px; max-width: 900px; margin: 20px auto; 
-                border: 1px solid var(--border-subtle); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            }
+            .hero-section { height: 500px; max-width: 900px; margin: 20px auto; border: 1px solid var(--border-subtle); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
             .carousel-slide { background-size: cover; justify-content: flex-start; padding-left: 5%; }
             .overlay-dark { background: linear-gradient(to right, #000 0%, rgba(0,0,0,0.7) 30%, rgba(0,0,0,0.1) 100%); }
             .slide-content { text-align: left; max-width: 450px; background: rgba(20, 20, 20, 0.6); padding: 30px; border-radius: 8px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.1); }
             .slide-title { font-size: 3.5rem; text-shadow: none; }
             .slide-subtitle { margin: 15px 0 25px 0; max-width: 100%; }
-
             .features-bar { gap: 80px; padding: 40px 0; max-width: 1200px; margin: 0 auto; background: transparent; border: none; }
             .info-section { flex-direction: row; }
             .info-image { height: auto; min-height: 500px; width: 50%; }
@@ -611,171 +602,33 @@
     <script>
         // CONFIG
         const phoneNumber = "5493424368831";
+        // Enlace del CSV que me pasaste:
+        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTN74fW388f062boSGyc5Ivglg7ydSR3QQlQUxSBYYKCjDiU9-bS_uq4lcUR15T1HcOpoENiltIhPjg/pub?output=csv";
         const RUTA_IMG = "img/"; 
 
-        // DATOS
-        const products = [
-            // --- VINOS ---
-            { id: 401, name: "Santa Julia Chenin Dulce", category: "vinos", price: 6500, promoPrice: 12500, promoQty: 2, img: "santajulia_blanco.png" },
-            { id: 402, name: "Canciller Dulce 1125ml", category: "vinos", price: 3000, promoPrice: 5000, promoQty: 2, img: "canciller.png" },
-            { id: 403, name: "Dilema Blanco", category: "vinos", price: 3800, promoPrice: 7000, promoQty: 2, img: "dilema.png" },
-            { id: 404, name: "Prófugo Blanco", category: "vinos", price: 4500, promoPrice: 8000, promoQty: 2, img: "profugo_blanco.png" },
-            { id: 405, name: "Luigi Bosca Chardonnay", category: "vinos", price: 10000, promoPrice: 19000, promoQty: 2, img: "luigi_chardonnay.png" },
-            { id: 406, name: "Santa Julia Varietal Tinto", category: "vinos", price: 4000, img: "santajulia_tinto.png" },
-            { id: 407, name: "Santa Julia Tinto Dulce", category: "vinos", price: 6500, promoPrice: 12000, promoQty: 2, img: "santajulia_dulce.png" },
-            { id: 408, name: "Prófugo Tinto", category: "vinos", price: 3300, promoPrice: 6000, promoQty: 2, img: "profugo_tinto.png" },
-            { id: 409, name: "Cordero Piel de Lobo", category: "vinos", price: 4500, promoPrice: 8500, promoQty: 2, img: "cordero.png" },
-            { id: 410, name: "Alma Mora", category: "vinos", price: 4700, promoPrice: 25000, promoQty: 6, img: "almamora.png" }, 
-            { id: 411, name: "Otro Loco Más", category: "vinos", price: 3800, promoPrice: 7000, promoQty: 2, img: "otrolocomas.png" },
-            { id: 412, name: "Luigi Bosca Malbec", category: "vinos", price: 10000, promoPrice: 19000, promoQty: 2, img: "luigi_malbec.png" },
-            { id: 413, name: "Trumpeter", category: "vinos", price: 8000, promoPrice: 15000, promoQty: 2, img: "trumpeter.png" },
-            { id: 414, name: "Estancia Mendoza", category: "vinos", price: 3000, promoPrice: 5000, promoQty: 2, img: "estancia.png" },
-            { id: 415, name: "Vino Toro 750ml", category: "vinos", price: 2000, img: "toro750.png" },
-            { id: 4, name: "Vino Malbec Rutini", category: "vinos", price: 12500, img: "rutini.png" },
-            { id: 420, name: "Frizze Evolution 1L", category: "vinos", price: 2800, img: "frizze.png" },
-            { id: 421, name: "Vino Toro Tetra Brik", category: "vinos", price: 2000, img: "torotetra.png" },
-
-            // --- COMBOS FERNET ---
-            { id: 930, name: "Fernet 750ml + 2 Coca 2.5L", category: "fernet", price: 21500, img: "fernet750_2coca25.png" },
-            { id: 931, name: "Fernet 750ml + 2 Coca 1.75L", category: "fernet", price: 20500, img: "fernet750_2coca175.png" },
-            { id: 932, name: "Fernet 750ml + 1 Coca 2.5L", category: "fernet", price: 18000, img: "fernet750_1coca25.png" },
-            { id: 933, name: "Fernet 1L + 2 Coca 2.5L", category: "fernet", price: 25500, img: "fernet1l_2coca25.png" },
-            { id: 934, name: "Fernet 1L + 2 Coca 1.75L", category: "fernet", price: 24500, img: "fernet1l_2coca175.png" },
-            { id: 935, name: "Fernet 1L + 2 Coca 1.5L", category: "fernet", price: 24500, img: "fernet1l_2coca15.png" },
-
-            // --- GINS ---
-            { id: 501, name: "Beefeater Pink 700ml", category: "gins", price: 25500, img: "beefeater_pink.png" },
-            { id: 502, name: "Beefeater Orange 700ml", category: "gins", price: 25500, img: "beefeater_orange.png" },
-            { id: 503, name: "Beefeater 700ml", category: "gins", price: 21300, img: "beefeater_700.png" },
-            { id: 504, name: "Heredero 700ml", category: "gins", price: 13000, img: "heredero_700.png" },
-            { id: 505, name: "Heredero Pink 700ml", category: "gins", price: 13900, img: "heredero_pink.png" },
-            { id: 506, name: "Bombay Sapphire 750ml", category: "gins", price: 26000, img: "bombay.png" },
-            { id: 507, name: "Tanqueray Dry", category: "gins", price: 23000, img: "tanqueray.png" },
-            { id: 508, name: "Gordon's", category: "gins", price: 11700, img: "gordons.png" },
-            { id: 509, name: "Mitos", category: "gins", price: 9800, img: "mitos.png" },
-
-            // --- APERITIVOS ---
-            { id: 450, name: "Martini Rosso", category: "aperitivos", price: 7000, img: "martini_rosso.png" },
-            { id: 451, name: "Cynar", category: "aperitivos", price: 9000, img: "cynar.png" },
-            { id: 452, name: "Gancia", category: "aperitivos", price: 7000, img: "gancia.png" },
-            { id: 453, name: "Cinzano", category: "aperitivos", price: 7800, img: "cinzano.png" },
-            { id: 454, name: "Campari", category: "aperitivos", price: 8000, img: "campari.png" },
-            { id: 460, name: "Dr. Lemon 1L", category: "aperitivos", price: 3400, img: "drlemon.png" },
-
-            // --- LICORES ---
-            { id: 601, name: "Jägermeister", category: "licores", price: 27500, img: "jaggermeister.png" },
-            { id: 602, name: "Krautermeister", category: "licores", price: 17000, img: "krautermeister.png" },
-            { id: 603, name: "Hodlmoser", category: "licores", price: 22800, img: "hodlmoser.png" },
-            { id: 604, name: "Baileys", category: "licores", price: 23500, img: "baileys.png" },
-
-            // --- WHISKY ---
-            { id: 701, name: "Johnnie Walker Red Label 1L", category: "whisky", price: 26500, img: "redlabel_1l.png" },
-            { id: 702, name: "Johnnie Walker Red Label 700ml", category: "whisky", price: 23900, img: "redlabel_700.png" },
-            { id: 703, name: "Johnnie Walker Black Label", category: "whisky", price: 44000, img: "blacklabel.png" },
-
-            // --- CHAMPAGNE ---
-            { id: 801, name: "Chandon Délice", category: "champagne", price: 17500, img: "chandon_delice.png" },
-            { id: 802, name: "Caja Chandon Délice", category: "champagne", price: 96000, img: "chandon_delice_caja.png" },
-
-            // --- JUGOS Y ENERGIZANTES / SIN ALCOHOL ---
-            { id: 150, name: "Baggio 1L", category: "jugos-energizantes", price: 1700, img: "baggio_1l.png" },
-            { id: 151, name: "Cepita 1L", category: "jugos-energizantes", price: 2000, img: "cepita_1l.png" },
-            { id: 152, name: "Cepita 1.5L", category: "jugos-energizantes", price: 2600, img: "cepita_15.png" },
-            { id: 153, name: "Fresh Saborizada", category: "jugos-energizantes", price: 1500, img: "fresh.png" },
-            { id: 154, name: "Pack Fresh", category: "jugos-energizantes", price: 7500, img: "fresh_pack.png" },
-            { id: 155, name: "Monster Energy", category: "jugos-energizantes", price: 2700, img: "monster.png" },
-            { id: 156, name: "Speed XL", category: "jugos-energizantes", price: 2200, img: "speed_xl.png" },
-            { id: 157, name: "Speed 250ml", category: "jugos-energizantes", price: 1700, img: "speed_250.png" },
-            { id: 158, name: "Red Bull 250ml", category: "jugos-energizantes", price: 2500, img: "redbull.png" },
-            { id: 160, name: "Tónica Cunnington 1.5L", category: "jugos-energizantes", price: 1900, img: "cunnington.png" },
-            { id: 161, name: "Paso de los Toros Tónica 1.5L", category: "jugos-energizantes", price: 2400, img: "pasotonica15.png" },
-            { id: 162, name: "Pritty Limón 2L", category: "jugos-energizantes", price: 2000, img: "pritty.png" },
-            { id: 163, name: "7up 2.25L", category: "jugos-energizantes", price: 2600, img: "7up225.png" },
-            { id: 164, name: "Pepsi 3L", category: "jugos-energizantes", price: 3000, img: "pepsi3l.png" },
-            
-            // SIN ALCOHOL (GASEOSAS EXISTENTES)
-            { id: 101, name: "Coca-Cola 1.5L", category: "sin-alcohol", price: 3000, img: "coca15.png" },
-            { id: 102, name: "Coca-Cola 1.75L", category: "sin-alcohol", price: 3300, img: "coca175.png" },
-            { id: 103, name: "Coca-Cola 2.5L", category: "sin-alcohol", price: 3500, img: "coca25.png" },
-            { id: 104, name: "Coca-Cola 2.75L", category: "sin-alcohol", price: 3900, img: "coca275.png" },
-            { id: 105, name: "Coca Retornable 2L", category: "sin-alcohol", price: 3000, img: "cocaret2l.png" },
-            { id: 106, name: "Sprite 1.5L", category: "sin-alcohol", price: 3000, img: "sprite15.png" },
-            { id: 107, name: "Sprite 1.75L", category: "sin-alcohol", price: 3300, img: "sprite175.png" },
-            { id: 108, name: "Sprite Zero 1.75L", category: "sin-alcohol", price: 3000, img: "spritezero175.png" },
-            { id: 109, name: "7up 1.5L", category: "sin-alcohol", price: 2000, img: "7up15.png" },
-            { id: 110, name: "Pepsi 1.5L", category: "sin-alcohol", price: 2000, img: "pepsi15.png" },
-            { id: 111, name: "Manaos Pomelo 3L", category: "sin-alcohol", price: 0, img: "manaos3l.png" },
-            { id: 112, name: "Paso de los Toros Pomelo", category: "sin-alcohol", price: 2400, img: "pasopomelo.png" },
-            { id: 113, name: "Paso de los Toros Tónica", category: "sin-alcohol", price: 2400, img: "pasotonica.png" },
-
-            // --- COMBOS HEREDERO ---
-            { id: 920, name: "Gin Heredero Pink + 2 Tónicas 1.5L", category: "promociones-navidenas", price: 17500, img: "heredero_pink_simple.png" },
-            { id: 921, name: "Gin Heredero Tangerine + 2 Tónicas 1.5L", category: "promociones-navidenas", price: 16500, img: "heredero_tangerine_simple.png" },
-            { id: 922, name: "Combo Heredero Pink Completo", category: "promociones-navidenas", price: 25500, img: "heredero_pink_full.png" },
-            { id: 923, name: "Combo Heredero Tangerine Completo", category: "promociones-navidenas", price: 24500, img: "heredero_tangerine_full.png" },
-
-            // SIDRAS
-            { id: 901, name: "Sidra 1888 750ml", category: "sidras", price: 6500, img: "1888.png" },
-            { id: 902, name: "Sidra 1888 Rosé 750ml", category: "sidras", price: 7700, img: "1888rose.png" },
-            { id: 903, name: "Sidra Tunuyán 750ml", category: "sidras", price: 3000, img: "tunuyan.png" },
-            { id: 904, name: "Sidra 1888 Pack x6", category: "sidras", price: 36000, img: "1888_pack.png" },
-            { id: 905, name: "Sidra 1888 Rosé Pack x6", category: "sidras", price: 43800, img: "1888rose_pack.png" },
-            { id: 906, name: "Sidra Tunuyán Pack x6", category: "sidras", price: 15600, img: "tunuyan_pack.png" },
-            
-            // COMBOS VARIOS
-            { id: 910, name: "1 Jagger + 4 Speed XL", category: "promociones-navidenas", price: 32800, img: "jagger_speedxl.png" },
-            { id: 911, name: "1 Jagger + 4 Speed 250ml", category: "promociones-navidenas", price: 29800, img: "jagger_speed.png" },
-            { id: 912, name: "1 Jagger + 4 Redbull", category: "promociones-navidenas", price: 34800, img: "jagger_redbull.png" },
-            { id: 913, name: "1 Jagger + 4 Monster", category: "promociones-navidenas", price: 35800, img: "jagger_monster.png" },
-            { id: 914, name: "2 Jagger + 8 Speed XL", category: "promociones-navidenas", price: 64000, img: "2jagger_speedxl.png" },
-            { id: 915, name: "2 Jagger + 8 Speed 250ml", category: "promociones-navidenas", price: 58600, img: "2jagger_speed.png" },
-            { id: 916, name: "2 Jagger + 8 Redbull", category: "promociones-navidenas", price: 68600, img: "2jagger_redbull.png" },
-            { id: 917, name: "2 Jagger + 8 Monster", category: "promociones-navidenas", price: 68600, img: "2jagger_monster.png" },
-            
-            // OTRAS CATEGORIAS
-            { id: 1, name: "Fernet Branca 750ml", category: "fernet", price: 9500, img: "fernet750.png" },
-            { id: 301, name: "Absolut Vodka Tradicional", category: "vodka", price: 19000, img: "absolut.png" },
-            { id: 302, name: "Absolut Vodka Saborizado", category: "vodka", price: 19500, img: "absolutsabor.png" },
-            { id: 303, name: "Smirnoff Tradicional", category: "vodka", price: 7500, img: "smirnoff.png" },
-            { id: 304, name: "Smirnoff Saborizado", category: "vodka", price: 8000, img: "smirnoffsabor.png" },
-            { id: 305, name: "Skyy Vodka Tradicional", category: "vodka", price: 7700, img: "skyy.png" },
-            { id: 306, name: "Skyy Vodka Saborizado", category: "vodka", price: 8500, img: "skyysabor.png" },
-            { id: 307, name: "Skyy Cosmic", category: "vodka", price: 9500, img: "skyycosmic.png" },
-            { id: 308, name: "Sernova Vodka Saborizado", category: "vodka", price: 7700, img: "sernovasabor.png" },
-            
-            // CERVEZAS
-            { id: 201, name: "Budweiser Lata 473ml", category: "cervezas", price: 1800, img: "budlata.png" },
-            { id: 202, name: "Budweiser Pack x6 (Lata)", category: "cervezas", price: 10000, img: "budpack.png" },
-            { id: 203, name: "Santa Fe Lata 473ml", category: "cervezas", price: 1600, img: "sfelata.png" },
-            { id: 204, name: "Santa Fe Pack x6 (Lata)", category: "cervezas", price: 9500, img: "sfepack.png" },
-            { id: 205, name: "Santa Fe Pilsen Lata", category: "cervezas", price: 1900, img: "sfepilsenlata.png" },
-            { id: 206, name: "Santa Fe Pilsen Pack x6", category: "cervezas", price: 11000, img: "sfepilsenpack.png" },
-            { id: 207, name: "Brahma Pack x6 (Lata)", category: "cervezas", price: 0, img: "brahmapack.png" },
-            { id: 208, name: "Heineken Lata 473ml", category: "cervezas", price: 2500, img: "heinekenlata.png" },
-            { id: 209, name: "Heineken Pack x6 (Lata)", category: "cervezas", price: 14500, img: "heinekenpack.png" },
-            { id: 210, name: "Miller Lata 473ml", category: "cervezas", price: 2200, img: "millerlata.png" },
-            { id: 211, name: "Miller Pack x6 (Lata)", category: "cervezas", price: 12600, img: "millerpack.png" },
-            { id: 212, name: "Stella Artois Pack x6", category: "cervezas", price: 0, img: "stellapack.png" },
-            { id: 220, name: "Corona Porrón 330ml", category: "cervezas", price: 2400, img: "coronapinina.png" },
-            { id: 221, name: "Corona Pack x6 (330ml)", category: "cervezas", price: 14000, img: "coronapack.png" },
-            { id: 222, name: "Stella Artois Pack x6 (Pinina)", category: "cervezas", price: 0, img: "stellapininapack.png" },
-            { id: 223, name: "Miller Pack x6 (Pinina)", category: "cervezas", price: 0, img: "millerpininapack.png" },
-            { id: 230, name: "Budweiser 1 Litro", category: "cervezas", price: 0, img: "bud1l.png" },
-            { id: 231, name: "Corona 750ml", category: "cervezas", price: 0, img: "corona750.png" },
-            { id: 232, name: "Miller 1 Litro", category: "cervezas", price: 3000, img: "miller1l.png" },
-            { id: 233, name: "Bajo Cero 1 Litro", category: "cervezas", price: 0, img: "bajocero1l.png" },
-            { id: 234, name: "Santa Fe 1 Litro", category: "cervezas", price: 2800, img: "sfe1l.png" },
-            { id: 235, name: "Santa Fe Pilsen 1 Litro", category: "cervezas", price: 3000, img: "sfepilsen1l.png" },
-            { id: 3, name: "Cerveza Quilmes Pack x6", category: "cervezas", price: 8200, img: "quilmespack.png" },
-
-            // PRODUCTOS VARIOS
-            { id: 1001, name: "Bolsa de Hielo 2kg", category: "varios", price: 3000, img: "hielo2kg.png" },
-            { id: 1002, name: "Bolsa de Hielo 4kg", category: "varios", price: 4500, img: "hielo4kg.png" },
-            { id: 1003, name: "Bolsa de Frutos Rojos", category: "varios", price: 4000, img: "frutosrojos.png" }
-        ];
-
+        // PRODUCTOS (Se llenan desde el CSV)
+        let products = [];
         let cart = [];
         let deliveryType = "";
+
+        // Inicialización: Cargar datos
+        function loadProducts() {
+            Papa.parse(SHEET_URL, {
+                download: true,
+                header: true,
+                dynamicTyping: true,
+                complete: function(results) {
+                    products = results.data;
+                    // Filtramos filas vacías por si acaso
+                    products = products.filter(p => p.id && p.name);
+                    showHome(); // Iniciamos la app una vez que hay datos
+                },
+                error: function(err) {
+                    console.error("Error cargando productos:", err);
+                    alert("Hubo un error cargando los productos. Por favor recarga la página.");
+                }
+            });
+        }
 
         // CARRUSEL
         let touchStartX = 0;
@@ -899,23 +752,17 @@
             const container = document.getElementById('products-container');
             container.innerHTML = '';
 
-            // Si está vacío, volvemos a mostrar 'todos' (o la categoría activa si quisiéramos ser más complejos, 
-            // pero volver a 'todos' es un buen default para búsqueda global)
             if(query.trim() === '') {
-                // Quitamos selección de botones para indicar modo "todos/busqueda"
                 document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-                // Opcional: Volver a activar "Todos"
                 const allBtn = document.querySelector('.cat-btn'); 
                 if(allBtn) allBtn.classList.add('active');
                 
-                // Renderizar todos mezclados
                 let list = products.slice();
                 shuffleArray(list);
                 list.forEach((p, index) => createProductCard(p, index, container));
                 return;
             }
 
-            // Desactivar botones de categoría porque estamos buscando en TODO
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
 
             const results = products.filter(p => p.name.toLowerCase().includes(query));
@@ -1142,7 +989,7 @@
 
         // INIT
         window.onload = function() {
-            showHome();
+            loadProducts(); // Cargar productos al inicio
         };
     </script>
 </body>
