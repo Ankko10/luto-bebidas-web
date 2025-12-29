@@ -307,6 +307,26 @@
         .contact-link { display: flex; align-items: center; gap: 10px; color: #999; text-decoration: none; font-size: 0.9rem; }
         .copyright { font-size: 0.7rem; opacity: 0.4; margin-top: 30px; letter-spacing: 1px; }
 
+        /* ESTILOS PARA TU CRÉDITO DE DESARROLLADOR */
+        .developer-credit {
+            margin-top: 15px;
+            font-size: 0.65rem;
+            color: #666;
+            border-top: 1px solid #222;
+            padding-top: 10px;
+            display: inline-block;
+        }
+        .developer-credit a {
+            color: #888;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .developer-credit a:hover {
+            color: var(--primary-white); 
+            text-decoration: underline;
+        }
+
         /* FLOATING BTN */
         .floating-order-btn {
             position: fixed; bottom: 25px; left: 5%; width: 90%;
@@ -459,7 +479,7 @@
                 <h2 class="section-heading serif-font">Eventos & Delivery</h2>
                 <p class="section-desc">Nos encargamos de que la bebida no falte. Ofrecemos consignación, enfriado y logística para reuniones de cualquier tamaño.</p>
                 <div style="margin-top:10px;">
-                    <a href="https://wa.me/5493425406314" target="_blank" class="btn-outline-smart">CONSULTAR</a>
+                    <a href="https://wa.me/5493424368831" target="_blank" class="btn-outline-smart">CONSULTAR</a>
                 </div>
             </div>
             <div class="info-image" style="background-image: url('img/portada3.jpg');"></div>
@@ -528,11 +548,15 @@
             <a href="https://instagram.com/luto.bebidas" target="_blank" class="contact-link">
                 <i class="fab fa-instagram"></i> luto.bebidas
             </a>
-            <a href="https://wa.me/5493425406314" target="_blank" class="contact-link">
-                <i class="fab fa-whatsapp"></i> 3425406314
+            <a href="https://wa.me/5493424368831" target="_blank" class="contact-link">
+                <i class="fab fa-whatsapp"></i> 5493424368831
             </a>
         </div>
         <p class="copyright">© 2024 Luto Bebidas - Distribuidora Online</p>
+        
+        <div class="developer-credit">
+            Desarrollado por <a href="https://instagram.com/antoniniuriel" target="_blank">TU_NOMBRE</a>
+        </div>
     </footer>
 
     <button class="floating-order-btn" onclick="handleFloatingButton()">
